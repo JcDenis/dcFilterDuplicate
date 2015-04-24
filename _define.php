@@ -22,7 +22,7 @@ $this->registerModule(
 	/* Description*/
 	"Antispam for duplicate comments on multiblog",
 	/* Author */
-	"Jean-Christian Denis",
+	"Jean-Christian Denis, Pierre Van Glabeke",
 	/* Version */
 	'0.6',
 	/* Properies */
