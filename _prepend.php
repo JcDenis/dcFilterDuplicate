@@ -3,7 +3,7 @@
 #
 # This file is part of dcFilterDuplicate, a plugin for Dotclear 2.
 # 
-# Copyright (c) 2009-2015 Jean-Christian Denis and contributors
+# Copyright (c) 2009-2021 Jean-Christian Denis and contributors
 # 
 # Licensed under the GPL version 2.0 license.
 # A copy of this license is available in LICENSE file or at
@@ -12,11 +12,10 @@
 # -- END LICENSE BLOCK ------------------------------------
 
 if (!defined('DC_RC_PATH')) {
-
-	return null;
+    return null;
 }
 
 $__autoload['dcFilterDuplicate'] = 
-	dirname(__FILE__).'/inc/class.filter.duplicate.php';
+    dirname(__FILE__) . '/inc/class.filter.duplicate.php';
 
 $core->spamfilters[] = 'dcFilterDuplicate';

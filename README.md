@@ -20,3 +20,14 @@ First install dcFilterDuplicate, manualy from a zip package or from
 Dotaddict repository. (See Dotclear's documentation to know how do this)
 
 Enable and configure "Dupicate comments filter" from antispam manager.
+
+## MORE
+
+ * License : GNU GPL v2
+ * Source & contribution : [GitHub Page](https://github.com/JcDenis/dcFilterDuplicate)
+ * Packages & details:  [Dotaddict Page](https://plugins.dotaddict.org/dc2/details/dcFilterDuplicate)
+
+## CONTRIBUTORS
+
+ * Jean-Chirstian Denis
+ * Pierre Van Glabeke
