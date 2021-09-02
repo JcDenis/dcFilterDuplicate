@@ -19,7 +19,7 @@ $this->registerModule(
     "dcFilterDuplicate",
     "Antispam for duplicate comments on multiblog",
     "Jean-Christian Denis, Pierre Van Glabeke",
-    '0.7',
+    '0.8',
     [
         'permissions' => 'admin',
         'priority' => 200,
