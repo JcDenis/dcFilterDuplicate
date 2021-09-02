@@ -1,13 +1,12 @@
 <modules xmlns:da="http://dotaddict.org/da/">
 <module id="dcFilterDuplicate">
 <name>dcFilterDuplicate</name>
-<version>0.7</version>
+<version>0.8</version>
 <author>Jean-Christian Denis, Pierre Van Glabeke</author>
 <desc>Antispam for duplicate comments on multiblog</desc>
-<file>https://github.com/JcDenis/dcFilterDuplicate/releases/download/v0.7/plugin-dcFilterDuplicate.zip</file>
+<file>https://github.com/JcDenis/dcFilterDuplicate/releases/download/v0.8/plugin-dcFilterDuplicate.zip</file>
 <da:dcmin>2.19</da:dcmin>
 <da:details>http://plugins.dotaddict.org/dc2/details/dcFilterDuplicate</da:details>
-<da:section></da:section>
 <da:support>http://forum.dotclear.org/viewtopic.php?pid=332947#p332947</da:support>
 </module>
 </modules>

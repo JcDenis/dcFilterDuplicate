@@ -16,4 +16,3 @@ $GLOBALS['__l10n']['Minimum content length before check for duplicate:'] = 'Long
 $GLOBALS['__l10n']['Duplicate comment filter'] = 'Filtre de doublon de commentaires';
 
 $GLOBALS['__l10n']['Antispam for duplicate comments on multiblog'] = 'Antispam contre les doublons de commentaires sur un multiblog';
-

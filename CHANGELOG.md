@@ -1,5 +1,5 @@
 0.8
-- [ ] clean up php files
+- [x] clean up php files
 
 0.7 - 2021.08.27
 - cleanup (PSR2,short array, ...)
