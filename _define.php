@@ -16,15 +16,15 @@ if (!defined('DC_RC_PATH')) {
 }
 
 $this->registerModule(
-    "dcFilterDuplicate",
+    "Duplicate filter",
     "Antispam for duplicate comments on multiblog",
     "Jean-Christian Denis, Pierre Van Glabeke",
     '0.8',
     [
+        'requires' => [['core', '2.19']],
         'permissions' => 'admin',
         'priority' => 200,
         'type' => 'plugin',
-        'dc_min' => '2.19',
         'support' => 'http://forum.dotclear.org/viewtopic.php?pid=332947#p332947',
         'details' => 'http://plugins.dotaddict.org/dc2/details/dcFilterDuplicate',
         'repository' => 'https://raw.githubusercontent.com/JcDenis/dcFilterDuplicate/master/dcstore.xml'

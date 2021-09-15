@@ -22,7 +22,7 @@ if (!defined('DC_RC_PATH')) {
  */
 class dcFilterDuplicate extends dcSpamFilter
 {
-    public $name = 'Duplicate comment filter';
+    public $name = 'Duplicate filter';
     public $has_gui = true;
 
     protected function setInfo()
@@ -36,7 +36,7 @@ class dcFilterDuplicate extends dcSpamFilter
         if ($type != 'comment') {
             return null;
         }
-        if (strlen($content) < abs((integer) $this->core->blog->settings->dcFilterDuplicate->dcfilterduplicate_minlen)) {
+        if (strlen($content) < abs((integer) $this->core->blog->settings->dcFilterDuplicate->getGlobal('dcfilterduplicate_minlen'))) {
             return null;
         }
 
@@ -84,28 +84,45 @@ class dcFilterDuplicate extends dcSpamFilter
 
     public function gui($url)
     {
-        if (isset($_POST['dcfilterduplicate_minlen'])) {
-            $this->core->blog->settings->dcFilterDuplicate->put(
-                'dcfilterduplicate_minlen',
-                abs((integer) $_POST['dcfilterduplicate_minlen']),
-                'integer'
-            );
-            dcPage::addSuccessNotice(__('Configuration successfully updated.'));
-            http::redirect($url);
-        }
+        if ($this->core->auth->isSuperAdmin()) {
+            $this->core->blog->settings->dcFilterDuplicate->drop('dcfilterduplicate_minlen');
+            if (isset($_POST['dcfilterduplicate_minlen'])) {
+                $this->core->blog->settings->dcFilterDuplicate->put(
+                    'dcfilterduplicate_minlen',
+                    abs((integer) $_POST['dcfilterduplicate_minlen']),
+                    'integer',
+                    'Minimum lenght of comment to filter',
+                    true,
+                    true
+                );
+                dcPage::addSuccessNotice(__('Configuration successfully updated.'));
+                http::redirect($url);
+            }
 
-        return 
-        '<form action="' . html::escapeURL($url) . '" method="post">' .
-        '<p><label class="classic">' . __('Minimum content length before check for duplicate:') . '<br />' .
-        form::field(
-            ['dcfilterduplicate_minlen'], 
-            65, 
-            255, 
-            abs((integer) $this->core->blog->settings->dcFilterDuplicate->dcfilterduplicate_minlen)
-        ) . '</label></p>' .
-        '<p><input type="submit" name="save" value="' . __('Save') . '" />' .
-        $this->core->formNonce() . '</p>' .
-        '</form>';
+            return 
+            '<form action="' . html::escapeURL($url) . '" method="post">' .
+            '<p><label class="classic">' . __('Minimum content length before check for duplicate:') . '<br />' .
+            form::field(
+                ['dcfilterduplicate_minlen'], 
+                65, 
+                255, 
+                $this->getMinlength(),
+            ) . '</label></p>' .
+            '<p><input type="submit" name="save" value="' . __('Save') . '" />' .
+            $this->core->formNonce() . '</p>' .
+            '</form>';
+        } else {
+            return 
+            '<p class="info">' . sprintf(
+                __('Super administrator set the minimum length of comment content to %d chars.'),
+                $this->getMinlength()
+            ) . '</p>';
+        }
+    }
+
+    private function getMinLength()
+    {
+        return abs((integer) $this->core->blog->settings->dcFilterDuplicate->getGlobal('dcfilterduplicate_minlen'));
     }
 
     public function triggerOtherBlogs($content, $ip)

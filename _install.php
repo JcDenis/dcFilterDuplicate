@@ -16,7 +16,6 @@ if (!defined('DC_CONTEXT_ADMIN')) {
 }
 
 # -- Module specs --
-$dc_min = '2.6';
 $mod_id = 'dcFilterDuplicate';
 $mod_conf = [[
         'dcfilterduplicate_minlen',
@@ -31,12 +30,15 @@ try {
     if (version_compare(
         $core->getVersion($mod_id),
         $core->plugins->moduleInfo($mod_id, 'version'),
-        '>=')) {
+        '>='
+    )) {
         return null;
     }
     # Check Dotclear version
+    $dc_min = $this->modules[$mod_id]['requires'][0][1];
     if (!method_exists('dcUtils', 'versionsCompare') 
-     || dcUtils::versionsCompare(DC_VERSION, $dc_min, '<', false)) {
+        || dcUtils::versionsCompare(DC_VERSION, $dc_min, '<', false)
+    ) {
         throw new Exception(sprintf(
             '%s requires Dotclear %s', $mod_id, $dc_min
         ));
