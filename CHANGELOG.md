@@ -1,6 +1,6 @@
-0.8 - dev
-- [x] clean up php files and some decoration
-- [x] fix rights, only super admin can change settings
+0.8
+- clean up php files and some decoration
+- fix rights, only super admin can change settings
 
 0.7 - 2021.08.27
 - cleanup (PSR2,short array, ...)
