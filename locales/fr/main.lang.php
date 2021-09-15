@@ -19,4 +19,3 @@ $GLOBALS['__l10n']['Super administrator set the minimum length of comment conten
 $GLOBALS['__l10n']['Antispam for duplicate comments on multiblog'] = 'Antispam contre les doublons de commentaires sur un multiblog';
 
 $GLOBALS['__l10n']['Duplicate filter'] = 'Filtre de doublons';
-

@@ -1,6 +1,6 @@
 <modules xmlns:da="http://dotaddict.org/da/">
 <module id="dcFilterDuplicate">
-<name>dcFilterDuplicate</name>
+<name>Filtre de doublons</name>
 <version>0.8</version>
 <author>Jean-Christian Denis, Pierre Van Glabeke</author>
 <desc>Antispam for duplicate comments on multiblog</desc>
