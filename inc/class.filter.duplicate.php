@@ -1,16 +1,15 @@
 <?php
 /**
  * @brief dcFilterDuplicate, a plugin for Dotclear 2
- * 
+ *
  * @package Dotclear
  * @subpackage Plugin
- * 
+ *
  * @author Jean-Christian Denis, Pierre Van Glabeke
- * 
+ *
  * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-
 if (!defined('DC_RC_PATH')) {
     return null;
 }
@@ -22,12 +21,12 @@ if (!defined('DC_RC_PATH')) {
  */
 class dcFilterDuplicate extends dcSpamFilter
 {
-    public $name = 'Duplicate filter';
+    public $name    = 'Duplicate filter';
     public $has_gui = true;
 
     protected function setInfo()
     {
-        $this->name = __('Duplicate');
+        $this->name        = __('Duplicate');
         $this->description = __('Same comments on others blogs of a multiblog');
     }
 
@@ -36,7 +35,7 @@ class dcFilterDuplicate extends dcSpamFilter
         if ($type != 'comment') {
             return null;
         }
-        if (strlen($content) < abs((integer) $this->core->blog->settings->dcFilterDuplicate->getGlobal('dcfilterduplicate_minlen'))) {
+        if (strlen($content) < $this->getMinLength()) {
             return null;
         }
 
@@ -44,10 +43,11 @@ class dcFilterDuplicate extends dcSpamFilter
             if ($this->isDuplicate($content, $ip)) {
                 $this->markDuplicate($content, $ip);
                 $status = 'Duplicate on other blog';
+
                 return true;
-            } else {
-                return null;
             }
+
+            return null;
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
@@ -55,41 +55,42 @@ class dcFilterDuplicate extends dcSpamFilter
 
     public function isDuplicate($content, $ip)
     {
-        $rs = $this->core->con->select(
-            'SELECT C.comment_id '.
-            'FROM ' . $this->core->prefix . 'comment C ' .
-            'LEFT JOIN ' . $this->core->prefix . 'post P ON C.post_id=P.post_id ' .
-            "WHERE P.blog_id != '" . $this->core->blog->id . "' " .
-            "AND C.comment_content='" . $this->core->con->escape($content) . "' " .
+        $rs = dcCore::app()->con->select(
+            'SELECT C.comment_id ' .
+            'FROM ' . dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME . ' C ' .
+            'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON C.post_id=P.post_id ' .
+            "WHERE P.blog_id != '" . dcCore::app()->blog->id . "' " .
+            "AND C.comment_content='" . dcCore::app()->con->escape($content) . "' " .
             "AND C.comment_ip='" . $ip . "' "
         );
+
         return !$rs->isEmpty();
     }
 
     public function markDuplicate($content, $ip)
     {
-        $cur = $this->core->con->openCursor($this->core->prefix . 'comment');
-        $this->core->con->writeLock($this->core->prefix . 'comment');
+        $cur = dcCore::app()->con->openCursor(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME);
+        dcCore::app()->con->writeLock(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME);
 
-        $cur->comment_status = -2;
+        $cur->comment_status      = -2;
         $cur->comment_spam_status = 'Duplicate on other blog';
         $cur->comment_spam_filter = 'dcFilterDuplicate';
         $cur->update(
-            "WHERE comment_content='" . $this->core->con->escape($content) . "' " .
+            "WHERE comment_content='" . dcCore::app()->con->escape($content) . "' " .
             "AND comment_ip='" . $ip . "' "
         );
-        $this->core->con->unlock();
+        dcCore::app()->con->unlock();
         $this->triggerOtherBlogs($content, $ip);
     }
 
-    public function gui($url)
+    public function gui(string $url): string
     {
-        if ($this->core->auth->isSuperAdmin()) {
-            $this->core->blog->settings->dcFilterDuplicate->drop('dcfilterduplicate_minlen');
+        if (dcCore::app()->auth->isSuperAdmin()) {
+            dcCore::app()->blog->settings->dcFilterDuplicate->drop('dcfilterduplicate_minlen');
             if (isset($_POST['dcfilterduplicate_minlen'])) {
-                $this->core->blog->settings->dcFilterDuplicate->put(
+                dcCore::app()->blog->settings->dcFilterDuplicate->put(
                     'dcfilterduplicate_minlen',
-                    abs((integer) $_POST['dcfilterduplicate_minlen']),
+                    abs((int) $_POST['dcfilterduplicate_minlen']),
                     'integer',
                     'Minimum lenght of comment to filter',
                     true,
@@ -99,44 +100,44 @@ class dcFilterDuplicate extends dcSpamFilter
                 http::redirect($url);
             }
 
-            return 
+            return
             '<form action="' . html::escapeURL($url) . '" method="post">' .
             '<p><label class="classic">' . __('Minimum content length before check for duplicate:') . '<br />' .
             form::field(
-                ['dcfilterduplicate_minlen'], 
-                65, 
-                255, 
+                ['dcfilterduplicate_minlen'],
+                65,
+                255,
                 $this->getMinlength(),
             ) . '</label></p>' .
             '<p><input type="submit" name="save" value="' . __('Save') . '" />' .
-            $this->core->formNonce() . '</p>' .
+            dcCore::app()->formNonce() . '</p>' .
             '</form>';
-        } else {
-            return 
-            '<p class="info">' . sprintf(
-                __('Super administrator set the minimum length of comment content to %d chars.'),
-                $this->getMinlength()
-            ) . '</p>';
         }
+
+        return
+        '<p class="info">' . sprintf(
+            __('Super administrator set the minimum length of comment content to %d chars.'),
+            $this->getMinlength()
+        ) . '</p>';
     }
 
     private function getMinLength()
     {
-        return abs((integer) $this->core->blog->settings->dcFilterDuplicate->getGlobal('dcfilterduplicate_minlen'));
+        return abs((int) dcCore::app()->blog->settings->dcFilterDuplicate->getGlobal('dcfilterduplicate_minlen'));
     }
 
     public function triggerOtherBlogs($content, $ip)
     {
-        $rs = $this->core->con->select(
+        $rs = dcCore::app()->con->select(
             'SELECT P.blog_id ' .
-            'FROM ' . $this->core->prefix . 'comment C ' .
-            'LEFT JOIN ' . $this->core->prefix . 'post P ON C.post_id=P.post_id ' .
-            "WHERE C.comment_content='" . $this->core->con->escape($content) . "' " .
+            'FROM ' . dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME . ' C ' .
+            'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON C.post_id=P.post_id ' .
+            "WHERE C.comment_content='" . dcCore::app()->con->escape($content) . "' " .
             "AND C.comment_ip='" . $ip . "' "
         );
 
         while ($rs->fetch()) {
-            $b = new dcBlog($this, $rs->blog_id);
+            $b = new dcBlog($rs->blog_id);
             $b->triggerBlog();
             unset($b);
         }
