@@ -1,3 +1,7 @@
+
+0.9 - 2022.11.20
+- fix compatibility with Dotclear 2.24 (required)
+
 0.8
 - clean up php files and some decoration
 - fix rights, only super admin can change settings
