@@ -21,7 +21,9 @@ $this->registerModule(
     '0.9',
     [
         'requires'    => [['core', '2.24']],
-        'permissions' => dcAuth::PERMISSION_ADMIN,
+        'permissions' => dcCore::app()->auth->makePermissions([
+            dcAuth::PERMISSION_ADMIN,
+        ]),
         'priority'    => 200,
         'type'        => 'plugin',
         'support'     => 'http://forum.dotclear.org/viewtopic.php?pid=332947#p332947',
