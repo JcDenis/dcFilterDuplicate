@@ -1,3 +1,6 @@
+0.9.1 - 2022.12.20
+- fix permission
+- fix install
 
 0.9 - 2022.11.20
 - fix compatibility with Dotclear 2.24 (required)

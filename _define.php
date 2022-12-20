@@ -18,7 +18,7 @@ $this->registerModule(
     'Duplicate filter',
     'Antispam for duplicate comments on multiblog',
     'Jean-Christian Denis, Pierre Van Glabeke',
-    '0.9',
+    '0.9.1',
     [
         'requires'    => [['core', '2.24']],
         'permissions' => dcCore::app()->auth->makePermissions([
@@ -27,7 +27,7 @@ $this->registerModule(
         'priority'    => 200,
         'type'        => 'plugin',
         'support'     => 'http://forum.dotclear.org/viewtopic.php?pid=332947#p332947',
-        'details'     => 'http://plugins.dotaddict.org/dc2/details/dcFilterDuplicate',
-        'repository'  => 'https://raw.githubusercontent.com/JcDenis/dcFilterDuplicate/master/dcstore.xml',
+        'details'     => 'http://plugins.dotaddict.org/dc2/details/' . basename(__DIR__),
+        'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . basename(__DIR__) . '/master/dcstore.xml',
     ]
 );
