@@ -1,3 +1,7 @@
+1.0 - 2023.03.11
+- update to dotclear 2.25
+- use namespace
+
 0.9.1 - 2022.12.20
 - fix permission
 - fix install

@@ -10,27 +10,36 @@
  * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_RC_PATH')) {
-    return null;
-}
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\dcFilterDuplicate;
+
+use dcBlog;
+use dcCore;
+use dcPage;
+use dcSpamFilter;
+use Exception;
+use form;
+use html;
+use http;
 
 /**
  * @ingroup DC_PLUGIN_DCFILTERDUPLICATE
  * @brief Filter duplicate comments on multiblogs.
  * @since 2.6
  */
-class dcFilterDuplicate extends dcSpamFilter
+class FilterDuplicate extends dcSpamFilter
 {
     public $name    = 'Duplicate filter';
     public $has_gui = true;
 
-    protected function setInfo()
+    protected function setInfo(): void
     {
         $this->name        = __('Duplicate');
         $this->description = __('Same comments on others blogs of a multiblog');
     }
 
-    public function isSpam($type, $author, $email, $site, $ip, $content, $post_id, &$status)
+    public function isSpam($type, $author, $email, $site, $ip, $content, $post_id, &$status): ?bool
     {
         if ($type != 'comment') {
             return null;
@@ -53,7 +62,7 @@ class dcFilterDuplicate extends dcSpamFilter
         }
     }
 
-    public function isDuplicate($content, $ip)
+    public function isDuplicate($content, $ip): bool
     {
         $rs = dcCore::app()->con->select(
             'SELECT C.comment_id ' .
@@ -67,7 +76,7 @@ class dcFilterDuplicate extends dcSpamFilter
         return !$rs->isEmpty();
     }
 
-    public function markDuplicate($content, $ip)
+    public function markDuplicate($content, $ip): void
     {
         $cur = dcCore::app()->con->openCursor(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME);
         dcCore::app()->con->writeLock(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME);
@@ -86,9 +95,9 @@ class dcFilterDuplicate extends dcSpamFilter
     public function gui(string $url): string
     {
         if (dcCore::app()->auth->isSuperAdmin()) {
-            dcCore::app()->blog->settings->dcFilterDuplicate->drop('dcfilterduplicate_minlen');
+            dcCore::app()->blog->settings->get(My::id())->drop('dcfilterduplicate_minlen');
             if (isset($_POST['dcfilterduplicate_minlen'])) {
-                dcCore::app()->blog->settings->dcFilterDuplicate->put(
+                dcCore::app()->blog->settings->get(My::id())->put(
                     'dcfilterduplicate_minlen',
                     abs((int) $_POST['dcfilterduplicate_minlen']),
                     'integer',
@@ -121,12 +130,12 @@ class dcFilterDuplicate extends dcSpamFilter
         ) . '</p>';
     }
 
-    private function getMinLength()
+    private function getMinLength(): int
     {
-        return abs((int) dcCore::app()->blog->settings->dcFilterDuplicate->getGlobal('dcfilterduplicate_minlen'));
+        return abs((int) dcCore::app()->blog->settings->get('dcFilterDuplicate')->getGlobal('dcfilterduplicate_minlen'));
     }
 
-    public function triggerOtherBlogs($content, $ip)
+    public function triggerOtherBlogs($content, $ip): void
     {
         $rs = dcCore::app()->con->select(
             'SELECT P.blog_id ' .
@@ -137,7 +146,7 @@ class dcFilterDuplicate extends dcSpamFilter
         );
 
         while ($rs->fetch()) {
-            $b = new dcBlog($rs->blog_id);
+            $b = new dcBlog($rs->f('blog_id'));
             $b->triggerBlog();
             unset($b);
         }

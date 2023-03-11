@@ -10,43 +10,55 @@
  * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_CONTEXT_ADMIN')) {
-    return null;
-}
+declare(strict_types=1);
 
-# -- Module specs --
-$mod_conf = [[
-    'dcfilterduplicate_minlen',
-    'Minimum lenght of comment to filter',
-    30,
-    'integer',
-]];
+namespace Dotclear\Plugin\dcFilterDuplicate;
 
-# -- Nothing to change below --
-try {
-    # Check module version
-    if (!dcCore::app()->newVersion(
-        basename(__DIR__), 
-        dcCore::app()->plugins->moduleInfo(basename(__DIR__), 'version')
-    )) {
-        return null;
-    }
-    # Set module settings
-    dcCore::app()->blog->settings->addNamespace(basename(__DIR__));
-    foreach ($mod_conf as $v) {
-        dcCore::app()->blog->settings->__get(basename(__DIR__))->put(
-            $v[0],
-            $v[2],
-            $v[3],
-            $v[1],
-            false,
-            true
-        );
+use dcCore;
+use dcNsProcess;
+use Exception;
+
+class Install extends dcNsProcess
+{
+    # -- Module specs --
+    private static $mod_conf = [[
+        'dcfilterduplicate_minlen',
+        'Minimum lenght of comment to filter',
+        30,
+        'integer',
+    ]];
+
+    public static function init(): bool
+    {
+        self::$init = defined('DC_CONTEXT_ADMIN') && dcCore::app()->newVersion(My::id(), dcCore::app()->plugins->moduleInfo(My::id(), 'version'));
+
+        return self::$init;
     }
 
-    return true;
-} catch (Exception $e) {
-    dcCore::app()->error->add($e->getMessage());
+    public static function process(): bool
+    {
+        if (!self::$init) {
+            return false;
+        }
 
-    return false;
+        try {
+            # Set module settings
+            foreach (self::$mod_conf as $v) {
+                dcCore::app()->blog->settings->get(My::id())->put(
+                    $v[0],
+                    $v[2],
+                    $v[3],
+                    $v[1],
+                    false,
+                    true
+                );
+            }
+
+            return true;
+        } catch (Exception $e) {
+            dcCore::app()->error->add($e->getMessage());
+
+            return false;
+        }
+    }
 }

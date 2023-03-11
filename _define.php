@@ -24,10 +24,10 @@ $this->registerModule(
         'permissions' => dcCore::app()->auth->makePermissions([
             dcAuth::PERMISSION_ADMIN,
         ]),
-        'priority'    => 200,
-        'type'        => 'plugin',
-        'support'     => 'http://forum.dotclear.org/viewtopic.php?pid=332947#p332947',
-        'details'     => 'http://plugins.dotaddict.org/dc2/details/' . basename(__DIR__),
-        'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . basename(__DIR__) . '/master/dcstore.xml',
+        'priority'   => 200,
+        'type'       => 'plugin',
+        'support'    => 'http://forum.dotclear.org/viewtopic.php?pid=332947#p332947',
+        'details'    => 'http://plugins.dotaddict.org/dc2/details/' . basename(__DIR__),
+        'repository' => 'https://raw.githubusercontent.com/JcDenis/' . basename(__DIR__) . '/master/dcstore.xml',
     ]
 );

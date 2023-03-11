@@ -1,33 +1,24 @@
-# Language: Français
-# Module: dcFilterDuplicate - 0.8
-# Date: 2021-09-15 19:57:37
-# Translated with translater 2021.09.02.1
-
 msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
-"Project-Id-Version: dcFilterDuplicate 0.8\n"
+"Project-Id-Version: dcFilterDuplicate 0.9.1\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2021-09-15T19:57:37+00:00\n"
+"PO-Revision-Date: 2023-03-11T22:08:21+00:00\n"
 "Last-Translator: Jean-Christian Denis\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: inc/class.filter.duplicate.php:30
 msgid "Duplicate"
 msgstr "Doublons"
 
-#: inc/class.filter.duplicate.php:31
 msgid "Same comments on others blogs of a multiblog"
 msgstr "Commentaires identiques sur les autres blogs du multiblog"
 
-#: inc/class.filter.duplicate.php:104
 msgid "Minimum content length before check for duplicate:"
 msgstr "Longueur minimum du contenu pour faire une vérification :"
 
-#: inc/class.filter.duplicate.php:117
 msgid "Super administrator set the minimum length of comment content to %d chars."
 msgstr "Un super administrateur a régler la longueur minimum d'un commentaire à surveiller à %d caractères."
 

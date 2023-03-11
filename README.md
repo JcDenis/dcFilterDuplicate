@@ -19,7 +19,7 @@ Filter as spam same (duplicate) comments from multiple blogs of a Dotclear's ins
  dcFilterDuplicate requires: 
 
   * permissions to manage antispam
-  * Dotclear 2.24
+  * Dotclear 2.25
 
 ## USAGE
 

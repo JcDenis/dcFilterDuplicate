@@ -10,74 +10,93 @@
  * @copyright Jean-Christian Denis
  * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-if (!defined('DC_CONTEXT_ADMIN')) {
-    return null;
+declare(strict_types=1);
+
+namespace Dotclear\Plugin\dcFilterDuplicate;
+
+class Uninstall
+{
+    protected static $init = false;
+
+    public static function init(): bool
+    {
+        self::$init = defined('DC_RC_PATH');
+
+        return self::$init;
+    }
+
+    public static function process($uninstaller): ?bool
+    {
+        if (!self::$init) {
+            return false;
+        }
+
+        $uninstaller->addUserAction(
+            /* type */
+            'settings',
+            /* action */
+            'delete_all',
+            /* ns */
+            My::id(),
+            /* desc */
+            __('delete all settings')
+        );
+
+        $uninstaller->addUserAction(
+            /* type */
+            'plugins',
+            /* action */
+            'delete',
+            /* ns */
+            My::id(),
+            /* desc */
+            __('delete plugin files')
+        );
+
+        $uninstaller->addUserAction(
+            /* type */
+            'versions',
+            /* action */
+            'delete',
+            /* ns */
+            My::id(),
+            /* desc */
+            __('delete the version number')
+        );
+
+        $uninstaller->addDirectAction(
+            /* type */
+            'settings',
+            /* action */
+            'delete_all',
+            /* ns */
+            My::id(),
+            /* desc */
+            sprintf(__('delete all %s settings'), My::id())
+        );
+
+        $uninstaller->addDirectAction(
+            /* type */
+            'versions',
+            /* action */
+            'delete',
+            /* ns */
+            My::id(),
+            /* desc */
+            sprintf(__('delete %s version number'), My::id())
+        );
+
+        $uninstaller->addDirectAction(
+            /* type */
+            'plugins',
+            /* action */
+            'delete',
+            /* ns */
+            My::id(),
+            /* desc */
+            sprintf(__('delete %s plugin files'), My::id())
+        );
+
+        return true;
+    }
 }
-
-$mod_id = 'dcFilterDuplicate';
-
-$this->addUserAction(
-    /* type */
-    'settings',
-    /* action */
-    'delete_all',
-    /* ns */
-    $mod_id,
-    /* desc */
-    __('delete all settings')
-);
-
-$this->addUserAction(
-    /* type */
-    'plugins',
-    /* action */
-    'delete',
-    /* ns */
-    $mod_id,
-    /* desc */
-    __('delete plugin files')
-);
-
-$this->addUserAction(
-    /* type */
-    'versions',
-    /* action */
-    'delete',
-    /* ns */
-    $mod_id,
-    /* desc */
-    __('delete the version number')
-);
-
-$this->addDirectAction(
-    /* type */
-    'settings',
-    /* action */
-    'delete_all',
-    /* ns */
-    $mod_id,
-    /* desc */
-    sprintf(__('delete all %s settings'), $mod_id)
-);
-
-$this->addDirectAction(
-    /* type */
-    'versions',
-    /* action */
-    'delete',
-    /* ns */
-    $mod_id,
-    /* desc */
-    sprintf(__('delete %s version number'), $mod_id)
-);
-
-$this->addDirectAction(
-    /* type */
-    'plugins',
-    /* action */
-    'delete',
-    /* ns */
-    $mod_id,
-    /* desc */
-    sprintf(__('delete %s plugin files'), $mod_id)
-);

@@ -15,25 +15,25 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\dcFilterDuplicate;
 
 use dcCore;
-use dcNsProcess;
 
-class Prepend extends dcNsProcess
+/**
+ * Plugin definitions
+ */
+class My
 {
-    public static function init(): bool
+    /**
+     * This module id
+     */
+    public static function id(): string
     {
-        self::$init = true;
-
-        return self::$init;
+        return basename(dirname(__DIR__));
     }
 
-    public static function process(): bool
+    /**
+     * This module name
+     */
+    public static function name(): string
     {
-        if (!self::$init) {
-            return false;
-        }
-
-        dcCore::app()->spamfilters[] = FilterDuplicate::class;
-
-        return true;
+        return __((string) dcCore::app()->plugins->moduleInfo(self::id(), 'name'));
     }
 }
