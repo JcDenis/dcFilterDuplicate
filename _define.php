@@ -18,9 +18,9 @@ $this->registerModule(
     'Duplicate filter',
     'Antispam for duplicate comments on multiblog',
     'Jean-Christian Denis, Pierre Van Glabeke',
-    '0.9.1',
+    '1.0',
     [
-        'requires'    => [['core', '2.24']],
+        'requires'    => [['core', '2.25']],
         'permissions' => dcCore::app()->auth->makePermissions([
             dcAuth::PERMISSION_ADMIN,
         ]),
