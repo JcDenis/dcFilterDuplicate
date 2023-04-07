@@ -21,6 +21,9 @@ use dcCore;
  */
 class My
 {
+    /** @var    string  Plugin setting prefix */
+    public const SETTING_PREFIX = 'dcfilterduplicate_';
+
     /**
      * This module id
      */

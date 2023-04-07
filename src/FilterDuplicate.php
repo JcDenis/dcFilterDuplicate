@@ -18,10 +18,16 @@ use dcBlog;
 use dcCore;
 use dcPage;
 use dcSpamFilter;
+use Dotclear\Helper\Html\Form\{
+    Form,
+    Input,
+    Label,
+    Para,
+    Submit
+};
+use Dotclear\Helper\Html\Html;
+use Dotclear\Helper\Network\Http;
 use Exception;
-use form;
-use html;
-use http;
 
 /**
  * @ingroup DC_PLUGIN_DCFILTERDUPLICATE
@@ -69,7 +75,7 @@ class FilterDuplicate extends dcSpamFilter
             'FROM ' . dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME . ' C ' .
             'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON C.post_id=P.post_id ' .
             "WHERE P.blog_id != '" . dcCore::app()->blog->id . "' " .
-            "AND C.comment_content='" . dcCore::app()->con->escape($content) . "' " .
+            "AND C.comment_content='" . dcCore::app()->con->escapeStr($content) . "' " .
             "AND C.comment_ip='" . $ip . "' "
         );
 
@@ -81,11 +87,11 @@ class FilterDuplicate extends dcSpamFilter
         $cur = dcCore::app()->con->openCursor(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME);
         dcCore::app()->con->writeLock(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME);
 
-        $cur->comment_status      = -2;
-        $cur->comment_spam_status = 'Duplicate on other blog';
-        $cur->comment_spam_filter = 'dcFilterDuplicate';
+        $cur->setField('comment_status', -2);
+        $cur->setField('comment_spam_status', 'Duplicate on other blog');
+        $cur->setField('comment_spam_filter', My::id());
         $cur->update(
-            "WHERE comment_content='" . dcCore::app()->con->escape($content) . "' " .
+            "WHERE comment_content='" . dcCore::app()->con->escapeStr($content) . "' " .
             "AND comment_ip='" . $ip . "' "
         );
         dcCore::app()->con->unlock();
@@ -95,32 +101,31 @@ class FilterDuplicate extends dcSpamFilter
     public function gui(string $url): string
     {
         if (dcCore::app()->auth->isSuperAdmin()) {
-            dcCore::app()->blog->settings->get(My::id())->drop('dcfilterduplicate_minlen');
-            if (isset($_POST['dcfilterduplicate_minlen'])) {
+            dcCore::app()->blog->settings->get(My::id())->drop(My::SETTING_PREFIX . 'minlen');
+            if (isset($_POST[My::SETTING_PREFIX . 'minlen'])) {
                 dcCore::app()->blog->settings->get(My::id())->put(
-                    'dcfilterduplicate_minlen',
-                    abs((int) $_POST['dcfilterduplicate_minlen']),
+                    My::SETTING_PREFIX . 'minlen',
+                    abs((int) $_POST[My::SETTING_PREFIX . 'minlen']),
                     'integer',
                     'Minimum lenght of comment to filter',
                     true,
                     true
                 );
                 dcPage::addSuccessNotice(__('Configuration successfully updated.'));
-                http::redirect($url);
+                Http::redirect($url);
             }
 
             return
-            '<form action="' . html::escapeURL($url) . '" method="post">' .
-            '<p><label class="classic">' . __('Minimum content length before check for duplicate:') . '<br />' .
-            form::field(
-                ['dcfilterduplicate_minlen'],
-                65,
-                255,
-                $this->getMinlength(),
-            ) . '</label></p>' .
-            '<p><input type="submit" name="save" value="' . __('Save') . '" />' .
-            dcCore::app()->formNonce() . '</p>' .
-            '</form>';
+            (new Form(My::id() . '_gui'))->method('post')->action(Html::escapeURL($url))->fields([
+                (new Para())->items([
+                    (new Label(__('Minimum content length before check for duplicate:')))->for(My::SETTING_PREFIX . 'minlen'),
+                    (new Input(My::SETTING_PREFIX . 'minlen'))->size(65)->maxlenght(255)->value($this->getMinlength()),
+                ]),
+                (new Para())->items([
+                    (new Submit('save'))->value(__('Save')),
+                    dcCore::app()->formNonce(false),
+                ]),
+            ]);
         }
 
         return
@@ -132,7 +137,7 @@ class FilterDuplicate extends dcSpamFilter
 
     private function getMinLength(): int
     {
-        return abs((int) dcCore::app()->blog->settings->get('dcFilterDuplicate')->getGlobal('dcfilterduplicate_minlen'));
+        return abs((int) dcCore::app()->blog->settings->get(My::id())->getGlobal(My::SETTING_PREFIX . 'minlen'));
     }
 
     public function triggerOtherBlogs($content, $ip): void
@@ -141,7 +146,7 @@ class FilterDuplicate extends dcSpamFilter
             'SELECT P.blog_id ' .
             'FROM ' . dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME . ' C ' .
             'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON C.post_id=P.post_id ' .
-            "WHERE C.comment_content='" . dcCore::app()->con->escape($content) . "' " .
+            "WHERE C.comment_content='" . dcCore::app()->con->escapeStr($content) . "' " .
             "AND C.comment_ip='" . $ip . "' "
         );
 
