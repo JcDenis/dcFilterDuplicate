@@ -125,7 +125,7 @@ class FilterDuplicate extends dcSpamFilter
                     (new Submit('save'))->value(__('Save')),
                     dcCore::app()->formNonce(false),
                 ]),
-            ]);
+            ])->render();
         }
 
         return
