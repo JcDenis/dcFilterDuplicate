@@ -21,7 +21,7 @@ use Exception;
 class Install extends dcNsProcess
 {
     # -- Module specs --
-    private static $mod_conf = [[
+    private static array $mod_conf = [[
         'dcfilterduplicate_minlen',
         'Minimum lenght of comment to filter',
         30,
@@ -38,6 +38,11 @@ class Install extends dcNsProcess
     public static function process(): bool
     {
         if (!static::$init) {
+            return false;
+        }
+
+        // nullsafe PHP < 8.0
+        if (is_null(dcCore::app()->blog)) {
             return false;
         }
 

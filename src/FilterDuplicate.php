@@ -45,9 +45,9 @@ class FilterDuplicate extends dcSpamFilter
         $this->description = __('Same comments on others blogs of a multiblog');
     }
 
-    public function isSpam($type, $author, $email, $site, $ip, $content, $post_id, &$status): ?bool
+    public function isSpam(string $type, ?string $author, ?string $email, ?string $site, ?string $ip, ?string $content, ?int $post_id, string &$status): ?bool
     {
-        if ($type != 'comment') {
+        if ($type != 'comment' || is_null($content) || is_null($ip)) {
             return null;
         }
         if (strlen($content) < $this->getMinLength()) {
@@ -68,8 +68,13 @@ class FilterDuplicate extends dcSpamFilter
         }
     }
 
-    public function isDuplicate($content, $ip): bool
+    public function isDuplicate(string $content, string $ip): bool
     {
+        // nullsafe PHP < 8.0
+        if (is_null(dcCore::app()->blog)) {
+            return false;
+        }
+
         $rs = dcCore::app()->con->select(
             'SELECT C.comment_id ' .
             'FROM ' . dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME . ' C ' .
@@ -82,7 +87,7 @@ class FilterDuplicate extends dcSpamFilter
         return !$rs->isEmpty();
     }
 
-    public function markDuplicate($content, $ip): void
+    public function markDuplicate(string $content, string $ip): void
     {
         $cur = dcCore::app()->con->openCursor(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME);
         dcCore::app()->con->writeLock(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME);
@@ -100,6 +105,11 @@ class FilterDuplicate extends dcSpamFilter
 
     public function gui(string $url): string
     {
+        // nullsafe PHP < 8.0
+        if (is_null(dcCore::app()->auth) || is_null(dcCore::app()->blog)) {
+            return '';
+        }
+
         if (dcCore::app()->auth->isSuperAdmin()) {
             dcCore::app()->blog->settings->get(My::id())->drop(My::SETTING_PREFIX . 'minlen');
             if (isset($_POST[My::SETTING_PREFIX . 'minlen'])) {
@@ -137,10 +147,15 @@ class FilterDuplicate extends dcSpamFilter
 
     private function getMinLength(): int
     {
+        // nullsafe PHP < 8.0
+        if (is_null(dcCore::app()->auth) || is_null(dcCore::app()->blog)) {
+            return 0;
+        }
+
         return abs((int) dcCore::app()->blog->settings->get(My::id())->getGlobal(My::SETTING_PREFIX . 'minlen'));
     }
 
-    public function triggerOtherBlogs($content, $ip): void
+    public function triggerOtherBlogs(string $content, string $ip): void
     {
         $rs = dcCore::app()->con->select(
             'SELECT P.blog_id ' .
