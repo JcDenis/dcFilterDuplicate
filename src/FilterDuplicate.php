@@ -17,7 +17,10 @@ namespace Dotclear\Plugin\dcFilterDuplicate;
 use dcBlog;
 use dcCore;
 use dcPage;
-use dcSpamFilter;
+use Dotclear\Database\Statement\{
+    JoinStatement,
+    SelectStatement
+};
 use Dotclear\Helper\Html\Form\{
     Form,
     Input,
@@ -27,6 +30,7 @@ use Dotclear\Helper\Html\Form\{
 };
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
+use Dotclear\Plugin\antispam\SpamFilter;
 use Exception;
 
 /**
@@ -34,7 +38,7 @@ use Exception;
  * @brief Filter duplicate comments on multiblogs.
  * @since 2.6
  */
-class FilterDuplicate extends dcSpamFilter
+class FilterDuplicate extends SpamFilter
 {
     public $name    = 'Duplicate filter';
     public $has_gui = true;
@@ -75,16 +79,21 @@ class FilterDuplicate extends dcSpamFilter
             return false;
         }
 
-        $rs = dcCore::app()->con->select(
-            'SELECT C.comment_id ' .
-            'FROM ' . dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME . ' C ' .
-            'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON C.post_id=P.post_id ' .
-            "WHERE P.blog_id != '" . dcCore::app()->blog->id . "' " .
-            "AND C.comment_content='" . dcCore::app()->con->escapeStr($content) . "' " .
-            "AND C.comment_ip='" . $ip . "' "
-        );
+        $sql = new SelectStatement();
+        $rs  = $sql->from($sql->as(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME, 'C'))
+            ->join(
+                (new JoinStatement())
+                ->left()
+                ->from($sql->as(dcCore::app()->prefix . dcBlog::POST_TABLE_NAME, 'P'))
+                ->on('C.post_id = P.post_id')
+                ->statement()
+            )
+            ->where('P.blog_id != ' . $sql->quote(dcCore::app()->blog->id))
+            ->and('C.comment_content = ' . $sql->quote($content))
+            ->and('C.comment_ip=' . $sql->quote($ip))
+            ->select();
 
-        return !$rs->isEmpty();
+        return !is_null($rs) && !$rs->isEmpty();
     }
 
     public function markDuplicate(string $content, string $ip): void
@@ -157,13 +166,23 @@ class FilterDuplicate extends dcSpamFilter
 
     public function triggerOtherBlogs(string $content, string $ip): void
     {
-        $rs = dcCore::app()->con->select(
-            'SELECT P.blog_id ' .
-            'FROM ' . dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME . ' C ' .
-            'LEFT JOIN ' . dcCore::app()->prefix . 'post P ON C.post_id=P.post_id ' .
-            "WHERE C.comment_content='" . dcCore::app()->con->escapeStr($content) . "' " .
-            "AND C.comment_ip='" . $ip . "' "
-        );
+        $sql = new SelectStatement();
+        $rs  = $sql->from($sql->as(dcCore::app()->prefix . dcBlog::COMMENT_TABLE_NAME, 'C'))
+            ->column('P.blog_id')
+            ->join(
+                (new JoinStatement())
+                ->left()
+                ->from($sql->as(dcCore::app()->prefix . dcBlog::POST_TABLE_NAME, 'P'))
+                ->on('C.post_id = P.post_id')
+                ->statement()
+            )
+            ->where('C.comment_content = ' . $sql->quote($content))
+            ->and('C.comment_ip=' . $sql->quote($ip))
+            ->select();
+
+        if (is_null($rs) || $rs->isEmpty()) {
+            return;
+        }
 
         while ($rs->fetch()) {
             $b = new dcBlog($rs->f('blog_id'));
