@@ -1,3 +1,10 @@
+1.1 - 2023.04.20
+- require dotclear 2.26
+- use sql statement
+- use dotclear helpers
+- use plugin Uninstaller
+- various cosmetic fix
+
 1.0 - 2023.03.11
 - update to dotclear 2.25
 - use namespace
