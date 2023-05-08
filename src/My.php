@@ -17,7 +17,7 @@ namespace Dotclear\Plugin\dcFilterDuplicate;
 use dcCore;
 
 /**
- * Plugin definitions
+ * This module definitions.
  */
 class My
 {
@@ -25,7 +25,7 @@ class My
     public const SETTING_PREFIX = 'dcfilterduplicate_';
 
     /**
-     * This module id
+     * This module id.
      */
     public static function id(): string
     {
@@ -33,10 +33,12 @@ class My
     }
 
     /**
-     * This module name
+     * This module name.
      */
     public static function name(): string
     {
-        return __((string) dcCore::app()->plugins->moduleInfo(self::id(), 'name'));
+        $name = dcCore::app()->plugins->moduleInfo(self::id(), 'name');
+
+        return __(is_string($name) ? $name : self::id());
     }
 }
