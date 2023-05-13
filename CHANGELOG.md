@@ -1,3 +1,8 @@
+1.2 - 2023.05.13
+- require dotclear 2.26
+- fix nullsafe warnings
+- release for dotclear 2.26 stable
+
 1.1 - 2023.04.20
 - require dotclear 2.26
 - use sql statement
