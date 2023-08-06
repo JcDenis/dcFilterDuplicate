@@ -1,11 +1,11 @@
 # README
 
-[![Release](https://img.shields.io/github/v/release/JcDenis/dcFilterDuplicate)](https://github.com/JcDenis/dcFilterDuplicate/releases)
-[![Date](https://img.shields.io/github/release-date/JcDenis/dcFilterDuplicate)](https://github.com/JcDenis/dcFilterDuplicate/releases)
-[![Issues](https://img.shields.io/github/issues/JcDenis/dcFilterDuplicate)](https://github.com/JcDenis/dcFilterDuplicate/issues)
-[![Dotclear](https://img.shields.io/badge/dotclear-v2.26-blue.svg)](https://fr.dotclear.org/download)
+[![Release](https://img.shields.io/github/v/release/JcDenis/dcFilterDuplicate)](https://git.dotclear.watch/JcDenis/dcFilterDuplicate/releases)
+[![Date](https://img.shields.io/github/release-date/JcDenis/dcFilterDuplicate)](https://git.dotclear.watch/JcDenis/dcFilterDuplicate/releases)
+[![Issues](https://img.shields.io/github/issues/JcDenis/dcFilterDuplicate)](https://git.dotclear.watch/JcDenis/dcFilterDuplicate/issues)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.27-blue.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-green.svg)](https://plugins.dotaddict.org/dc2/details/dcFilterDuplicate)
-[![License](https://img.shields.io/github/license/JcDenis/dcFilterDuplicate)](https://github.com/JcDenis/dcFilterDuplicate/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/JcDenis/dcFilterDuplicate)](https://git.dotclear.watch/JcDenis/dcFilterDuplicate/blob/master/LICENSE)
 
 ## WHAT IS DCFILTERDUPLICATE ?
 
@@ -19,7 +19,7 @@ Filter as spam same (duplicate) comments from multiple blogs of a Dotclear's ins
  dcFilterDuplicate requires: 
 
   * permissions to manage antispam
-  * Dotclear 2.26
+  * Dotclear 2.27
 
 ## USAGE
 
@@ -31,10 +31,12 @@ Enable and configure "Dupicate comments filter" from antispam manager.
 ## MORE
 
  * License : GNU GPL v2
- * Source & contribution : [GitHub Page](https://github.com/JcDenis/dcFilterDuplicate)
- * Packages & details:  [Dotaddict Page](https://plugins.dotaddict.org/dc2/details/dcFilterDuplicate)
+ * Source & contribution : [Gitea Page](https://git.dotclear.watch/JcDenis/dcFilterDuplicate) or [GitHub Page](https://github.com/JcDenis/dcFilterDuplicate)
+ * Packages & details: [Gitea Page](https://git.dotclear.watch/JcDenis/dcFilterDuplicate/releases) or [Dotaddict Page](https://plugins.dotaddict.org/dc2/details/dcFilterDuplicate)
 
 ## CONTRIBUTORS
 
  * Jean-Chirstian Denis
  * Pierre Van Glabeke
+
+You are welcome to contribute to this code.
