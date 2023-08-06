@@ -16,7 +16,7 @@ namespace Dotclear\Plugin\dcFilterDuplicate;
 
 use dcBlog;
 use dcCore;
-use dcPage;
+use Dotclear\Core\Backend\Notices;
 use Dotclear\Database\Statement\{
     JoinStatement,
     SelectStatement
@@ -115,14 +115,14 @@ class FilterDuplicate extends SpamFilter
     public function gui(string $url): string
     {
         // nullsafe PHP < 8.0
-        if (is_null(dcCore::app()->auth) || is_null(dcCore::app()->blog)) {
+        if (is_null(dcCore::app()->blog)) {
             return '';
         }
 
         if (dcCore::app()->auth->isSuperAdmin()) {
-            dcCore::app()->blog->settings->get(My::id())->drop(My::SETTING_PREFIX . 'minlen');
+            My::settings()->drop(My::SETTING_PREFIX . 'minlen');
             if (isset($_POST[My::SETTING_PREFIX . 'minlen'])) {
-                dcCore::app()->blog->settings->get(My::id())->put(
+                My::settings()->put(
                     My::SETTING_PREFIX . 'minlen',
                     abs((int) $_POST[My::SETTING_PREFIX . 'minlen']),
                     'integer',
@@ -130,7 +130,7 @@ class FilterDuplicate extends SpamFilter
                     true,
                     true
                 );
-                dcPage::addSuccessNotice(__('Configuration successfully updated.'));
+                Notices::addSuccessNotice(__('Configuration successfully updated.'));
                 Http::redirect($url);
             }
 
@@ -157,11 +157,11 @@ class FilterDuplicate extends SpamFilter
     private function getMinLength(): int
     {
         // nullsafe PHP < 8.0
-        if (is_null(dcCore::app()->auth) || is_null(dcCore::app()->blog)) {
+        if (is_null(dcCore::app()->blog)) {
             return 0;
         }
 
-        return abs((int) dcCore::app()->blog->settings->get(My::id())->getGlobal(My::SETTING_PREFIX . 'minlen'));
+        return abs((int) My::settings()->getGlobal(My::SETTING_PREFIX . 'minlen'));
     }
 
     public function triggerOtherBlogs(string $content, string $ip): void
