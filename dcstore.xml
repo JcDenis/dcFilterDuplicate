@@ -5,7 +5,7 @@
     <version>1.3</version>
     <author>Jean-Christian Denis, Pierre Van Glabeke</author>
     <desc>Antispam for duplicate comments on multiblog</desc>
-    <file>https://gitea.dotclear.watch/JcDenis/dcFilterDuplicate/releases/download/v1.3/plugin-dcFilterDuplicate.zip</file>
+    <file>https://git.dotclear.watch/JcDenis/dcFilterDuplicate/releases/download/v1.3/plugin-dcFilterDuplicate.zip</file>
     <da:dcmin>2.27</da:dcmin>
     <da:details>https://git.dotclear.watch/JcDenis/dcFilterDuplicate/src/branch/master/README.md</da:details>
     <da:support>https://git.dotclear.watch/JcDenis/dcFilterDuplicate/issues</da:support>
