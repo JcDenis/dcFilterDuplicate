@@ -1,22 +1,20 @@
 <?php
-/**
- * @brief dcFilterDuplicate, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author Jean-Christian Denis, Pierre Van Glabeke
- *
- * @copyright Jean-Christian Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\dcFilterDuplicate;
 
-use dcCore;
+use ArrayObject;
+use Dotclear\App;
 use Dotclear\Core\Process;
 
+/**
+ * @brief       dcFilterDuplicate prepend class.
+ * @ingroup     dcFilterDuplicate
+ *
+ * @author      Jean-Christian Denis (author)
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
+ */
 class Prepend extends Process
 {
     public static function init(): bool
@@ -30,7 +28,9 @@ class Prepend extends Process
             return false;
         }
 
-        dcCore::app()->spamfilters[] = FilterDuplicate::class;
+        App::behavior()->addBehavior('AntispamInitFilters', function (ArrayObject $spamfilters): void {
+            $spamfilters[] = FilterDuplicate::class;
+        });
 
         return true;
     }

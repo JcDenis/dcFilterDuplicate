@@ -1,15 +1,5 @@
 <?php
-/**
- * @brief dcFilterDuplicate, a plugin for Dotclear 2
- *
- * @package Dotclear
- * @subpackage Plugin
- *
- * @author Jean-Christian Denis, Pierre Van Glabeke
- *
- * @copyright Jean-Christian Denis
- * @copyright GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
- */
+
 declare(strict_types=1);
 
 namespace Dotclear\Plugin\dcFilterDuplicate;
@@ -17,10 +7,20 @@ namespace Dotclear\Plugin\dcFilterDuplicate;
 use Dotclear\Module\MyPlugin;
 
 /**
- * This module definitions.
+ * @brief       dcFilterDuplicate My helper.
+ * @ingroup     dcFilterDuplicate
+ *
+ * @author      Jean-Christian Denis (author)
+ * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
 class My extends MyPlugin
 {
-    /** @var    string  Plugin setting prefix */
+    /**
+     * Plugin setting prefix.
+     *
+     * @var     string  SETTING_PREFIX
+     */
     public const SETTING_PREFIX = 'dcfilterduplicate_';
+
+    // Use default permissions
 }

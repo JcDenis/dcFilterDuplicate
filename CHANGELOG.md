@@ -1,3 +1,9 @@
+dcFilterDuplicate 1.4 - 2023.10.15
+===========================================================
+* Require Dotclear 2.28
+* Require PHP 8.1
+* Upgrade to Dotclear 2.28
+
 dcFilterDuplicate 1.3 - 2023.08.06
 ===========================================================
 * Require Dotclear 2.27
