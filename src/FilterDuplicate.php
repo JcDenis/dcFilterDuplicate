@@ -127,7 +127,7 @@ class FilterDuplicate extends SpamFilter
             (new Form(My::id() . '_gui'))->method('post')->action(Html::escapeURL($url))->fields([
                 (new Para())->items([
                     (new Label(__('Minimum content length before check for duplicate:')))->for(My::SETTING_PREFIX . 'minlen'),
-                    (new Input(My::SETTING_PREFIX . 'minlen'))->size(65)->maxlenght(255)->value($this->getMinlength()),
+                    (new Input(My::SETTING_PREFIX . 'minlen'))->size(65)->maxlength(255)->value($this->getMinlength()),
                 ]),
                 (new Para())->items([
                     (new Submit('save'))->value(__('Save')),
