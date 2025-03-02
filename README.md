@@ -4,7 +4,7 @@
 ![Date](https://img.shields.io/github/release-date/jcdenis/dcFilterDuplicate?color=red)
 [![Dotclear](https://img.shields.io/badge/dotclear-v2.33-137bbb.svg)](https://fr.dotclear.org/download)
 [![Dotaddict](https://img.shields.io/badge/dotaddict-official-9ac123.svg)](https://plugins.dotaddict.org/dc2/details/dcFilterDuplicate)
-[![License](https://img.shields.io/github/license/jcdenis/dcFilterDuplicate?color=white)](https://github.com/JcDenis/dcFilterDuplicate/src/branch/master/LICENSE)
+[![License](https://img.shields.io/github/license/jcdenis/dcFilterDuplicate?color=white)](https://github.com/JcDenis/dcFilterDuplicate/blob/master/LICENSE)
 
 ## ABOUT
 
@@ -27,7 +27,7 @@ Enable and configure "Dupicate comments filter" from antispam manager.
 
 ## MORE
 
-* [License](https://github.com/JcDenis/dcFilterDuplicate/src/branch/master/LICENSE)
+* [License](https://github.com/JcDenis/dcFilterDuplicate/blob/master/LICENSE)
 * [Packages & details](https://github.com/JcDenis/dcFilterDuplicate/releases) (or on [Dotaddict](https://plugins.dotaddict.org/dc2/details/dcFilterDuplicate))
 * [Sources & contributions](https://github.com/JcDenis/dcFilterDuplicate)
 * [Issues & security](https://github.com/JcDenis/dcFilterDuplicate/issues)
