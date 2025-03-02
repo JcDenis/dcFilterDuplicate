@@ -1,3 +1,9 @@
+dcFilterDuplicate 1.4.2 - 2025.03.02
+===========================================================
+* Require Dotclear 2.28
+* Require PHP 8.1
+* Fix repository URLs
+
 dcFilterDuplicate 1.4.1 - 2023.11.04
 ===========================================================
 * Require Dotclear 2.28
