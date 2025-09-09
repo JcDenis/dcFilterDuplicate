@@ -6,7 +6,7 @@ namespace Dotclear\Plugin\dcFilterDuplicate;
 
 use ArrayObject;
 use Dotclear\App;
-use Dotclear\Core\Process;
+use Dotclear\Helper\Process\TraitProcess;
 
 /**
  * @brief       dcFilterDuplicate prepend class.
@@ -15,8 +15,10 @@ use Dotclear\Core\Process;
  * @author      Jean-Christian Denis (author)
  * @copyright   GPL-2.0 https://www.gnu.org/licenses/gpl-2.0.html
  */
-class Prepend extends Process
+class Prepend
 {
+    use TraitProcess;
+
     public static function init(): bool
     {
         return self::status(My::checkContext(My::PREPEND));
