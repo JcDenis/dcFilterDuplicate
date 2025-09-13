@@ -18,7 +18,7 @@ $this->registerModule(
     'Duplicate filter',
     'Antispam for duplicate comments on multiblog',
     'Jean-Christian Denis, Pierre Van Glabeke',
-    '1.5',
+    '1.5.1',
     [
         'requires'    => [['core', '2.36']],
         'permissions' => 'My',
