@@ -6,17 +6,13 @@ namespace Dotclear\Plugin\dcFilterDuplicate;
 
 use Dotclear\App;
 use Dotclear\Core\Backend\Notices;
-use Dotclear\Database\Statement\{
-    JoinStatement,
-    SelectStatement
-};
-use Dotclear\Helper\Html\Form\{
-    Form,
-    Input,
-    Label,
-    Para,
-    Submit
-};
+use Dotclear\Database\Statement\JoinStatement;
+use Dotclear\Database\Statement\SelectStatement;
+use Dotclear\Helper\Html\Form\Form;
+use Dotclear\Helper\Html\Form\Input;
+use Dotclear\Helper\Html\Form\Label;
+use Dotclear\Helper\Html\Form\Para;
+use Dotclear\Helper\Html\Form\Submit;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Plugin\antispam\SpamFilter;
@@ -70,11 +66,11 @@ class FilterDuplicate extends SpamFilter
         }
 
         $sql = new SelectStatement();
-        $rs  = $sql->from($sql->as(App::con()->prefix() . App::blog()::COMMENT_TABLE_NAME, 'C'))
+        $rs  = $sql->from($sql->as(App::db()->con()->prefix() . App::blog()::COMMENT_TABLE_NAME, 'C'))
             ->join(
                 (new JoinStatement())
                 ->left()
-                ->from($sql->as(App::con()->prefix() . App::blog()::POST_TABLE_NAME, 'P'))
+                ->from($sql->as(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME, 'P'))
                 ->on('C.post_id = P.post_id')
                 ->statement()
             )
@@ -89,16 +85,16 @@ class FilterDuplicate extends SpamFilter
     public function markDuplicate(string $content, string $ip): void
     {
         $cur = App::blog()->openCommentCursor();
-        App::con()->writeLock(App::con()->prefix() . App::blog()::COMMENT_TABLE_NAME);
+        App::db()->con()->writeLock(App::db()->con()->prefix() . App::blog()::COMMENT_TABLE_NAME);
 
         $cur->setField('comment_status', -2);
         $cur->setField('comment_spam_status', 'Duplicate on other blog');
         $cur->setField('comment_spam_filter', My::id());
         $cur->update(
-            "WHERE comment_content='" . App::con()->escapeStr($content) . "' " .
+            "WHERE comment_content='" . App::db()->con()->escapeStr($content) . "' " .
             "AND comment_ip='" . $ip . "' "
         );
-        App::con()->unlock();
+        App::db()->con()->unlock();
         $this->triggerOtherBlogs($content, $ip);
     }
 
@@ -127,7 +123,7 @@ class FilterDuplicate extends SpamFilter
             (new Form(My::id() . '_gui'))->method('post')->action(Html::escapeURL($url))->fields([
                 (new Para())->items([
                     (new Label(__('Minimum content length before check for duplicate:')))->for(My::SETTING_PREFIX . 'minlen'),
-                    (new Input(My::SETTING_PREFIX . 'minlen'))->size(65)->maxlength(255)->value($this->getMinlength()),
+                    (new Input(My::SETTING_PREFIX . 'minlen'))->size(65)->maxlength(255)->value($this->getMinLength()),
                 ]),
                 (new Para())->items([
                     (new Submit('save'))->value(__('Save')),
@@ -139,7 +135,7 @@ class FilterDuplicate extends SpamFilter
         return
         '<p class="info">' . sprintf(
             __('Super administrator set the minimum length of comment content to %d chars.'),
-            $this->getMinlength()
+            $this->getMinLength()
         ) . '</p>';
     }
 
@@ -155,12 +151,12 @@ class FilterDuplicate extends SpamFilter
     public function triggerOtherBlogs(string $content, string $ip): void
     {
         $sql = new SelectStatement();
-        $rs  = $sql->from($sql->as(App::con()->prefix() . App::blog()::COMMENT_TABLE_NAME, 'C'))
+        $rs  = $sql->from($sql->as(App::db()->con()->prefix() . App::blog()::COMMENT_TABLE_NAME, 'C'))
             ->column('P.blog_id')
             ->join(
                 (new JoinStatement())
                 ->left()
-                ->from($sql->as(App::con()->prefix() . App::blog()::POST_TABLE_NAME, 'P'))
+                ->from($sql->as(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME, 'P'))
                 ->on('C.post_id = P.post_id')
                 ->statement()
             )
