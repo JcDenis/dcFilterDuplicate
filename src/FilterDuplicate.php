@@ -36,7 +36,7 @@ class FilterDuplicate extends SpamFilter
         $this->description = __('Same comments on others blogs of a multiblog');
     }
 
-    public function isSpam(string $type, ?string $author, ?string $email, ?string $site, ?string $ip, ?string $content, ?int $post_id, string &$status)
+    public function isSpam(string $type, ?string $author, ?string $email, ?string $site, ?string $ip, ?string $content, ?int $post_id, string &$status): ?bool
     {
         if ($type != 'comment' || is_null($content) || is_null($ip)) {
             return null;
