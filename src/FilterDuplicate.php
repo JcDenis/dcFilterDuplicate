@@ -171,7 +171,7 @@ class FilterDuplicate extends SpamFilter
         $old = App::blog()->id();
 
         while ($rs->fetch()) {
-            App::blog()->loadFromBlog($rs->f('blog_id'))->triggerBlog();
+            App::blog()->loadFromBlog($rs->strField('blog_id'))->triggerBlog();
         }
 
         App::blog()->loadFromBlog($old);
