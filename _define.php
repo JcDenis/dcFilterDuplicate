@@ -20,7 +20,7 @@ $this->registerModule(
     'Jean-Christian Denis, Pierre Van Glabeke',
     '1.6',
     [
-        'requires'    => [['core', '2.37']],
+        'requires'    => [['core', '2.39']],
         'permissions' => 'My',
         'priority'    => 200,
         'type'        => 'plugin',

@@ -1,3 +1,7 @@
+dcFilterDuplicate 1.7 - xxxx.xx.xx
+===========================================================
+* Bump Dotclear from 2.37 to 2.39
+
 dcFilterDuplicate 1.6 - 2025.12.06
 ===========================================================
 * Bump Dotclear from 2.36 to 2.37
