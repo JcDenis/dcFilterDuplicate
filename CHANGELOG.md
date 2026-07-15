@@ -1,6 +1,7 @@
 dcFilterDuplicate 1.7 - xxxx.xx.xx
 ===========================================================
 * Bump Dotclear from 2.37 to 2.39
+* Code review (php stan max)
 
 dcFilterDuplicate 1.6 - 2025.12.06
 ===========================================================

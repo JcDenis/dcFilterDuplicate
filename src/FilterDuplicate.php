@@ -109,7 +109,7 @@ class FilterDuplicate extends SpamFilter
             if (isset($_POST[My::SETTING_PREFIX . 'minlen'])) {
                 My::settings()->put(
                     My::SETTING_PREFIX . 'minlen',
-                    abs((int) $_POST[My::SETTING_PREFIX . 'minlen']),
+                    is_numeric($_POST[My::SETTING_PREFIX . 'minlen']) ? abs((int) $_POST[My::SETTING_PREFIX . 'minlen']) : 0,
                     'integer',
                     'Minimum lenght of comment to filter',
                     true,
@@ -145,7 +145,9 @@ class FilterDuplicate extends SpamFilter
             return 0;
         }
 
-        return abs((int) My::settings()->getGlobal(My::SETTING_PREFIX . 'minlen'));
+        $min = My::settings()->getGlobal(My::SETTING_PREFIX . 'minlen');
+
+        return is_numeric($min) ? abs((int) $min) : 0;
     }
 
     public function triggerOtherBlogs(string $content, string $ip): void
