@@ -1,4 +1,4 @@
-dcFilterDuplicate 1.7 - xxxx.xx.xx
+dcFilterDuplicate 1.7 - 2026.08.12
 ===========================================================
 * Bump Dotclear from 2.37 to 2.39
 * Code review (php stan max)
