@@ -12,6 +12,8 @@ _dcFilterDuplicate_ is a plugin for the open-source web publishing software call
 
 > Filter as spam same (duplicate) comments from multiple blogs of a Dotclear's install.
 
+A [user guide in French](https://github.com/JcDenis/dcFilterDuplicate/blob/master/docs/fr/utilisation.md) is available.
+
 ## REQUIREMENTS
 
 * Dotclear 2.39
@@ -27,6 +29,7 @@ Enable and configure "Duplicate" filter from antispam manager.
 
 ## MORE
 
+* [User guide (in French)](https://github.com/JcDenis/dcFilterDuplicate/blob/master/docs/fr/utilisation.md)
 * [License](https://github.com/JcDenis/dcFilterDuplicate/blob/master/LICENSE)
 * [Packages & details](https://github.com/JcDenis/dcFilterDuplicate/releases) (or on [Repository](https://dotclear.org/plugin/detail/dcFilterDuplicate))
 * [Sources & contributions](https://github.com/JcDenis/dcFilterDuplicate)
