@@ -7,7 +7,7 @@
     <desc>Antispam for duplicate comments on multiblog</desc>
     <file>https://github.com/JcDenis/dcFilterDuplicate/releases/download/v1.7/plugin-dcFilterDuplicate.zip</file>
     <da:dcmin>2.39</da:dcmin>
-    <da:details>https://github.com/JcDenis/dcFilterDuplicate/src/branch/master/README.md</da:details>
+    <da:details>https://github.com/JcDenis/dcFilterDuplicate/blob/master/README.md</da:details>
     <da:support>https://github.com/JcDenis/dcFilterDuplicate/issues</da:support>
   </module>
 </modules>
