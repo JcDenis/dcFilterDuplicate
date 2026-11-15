@@ -22,7 +22,7 @@ $this->registerModule(
     'Duplicate filter',
     'Antispam for duplicate comments on multiblog',
     'Jean-Christian Denis, Pierre Van Glabeke',
-    '1.7',
+    '1.8',
     [
         'requires'    => [['core', '2.39']],
         'permissions' => 'My',
@@ -31,6 +31,6 @@ $this->registerModule(
         'support'     => 'https://github.com/JcDenis/' . $this->id . '/issues',
         'details'     => 'https://github.com/JcDenis/' . $this->id . '/',
         'repository'  => 'https://raw.githubusercontent.com/JcDenis/' . $this->id . '/master/dcstore.xml',
-        'date'        => '2026-08-12T20:47:24+00:00',
+        'date'        => '2026-11-15T10:11:51+00:00',
     ]
 );

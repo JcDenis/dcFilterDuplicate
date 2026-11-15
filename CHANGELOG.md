@@ -1,3 +1,9 @@
+dcFilterDuplicate 1.8 - 2026.11.15
+===========================================================
+* [fix] Mark duplicates only on other blogs, same filter name, translated status, escaped IP
+* [lang] Translate status and fix typo
+* [docs] Add a user guide in French, with screenshots
+
 dcFilterDuplicate 1.7 - 2026.08.12
 ===========================================================
 * Bump Dotclear from 2.37 to 2.39
