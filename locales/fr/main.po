@@ -20,7 +20,7 @@ msgid "Minimum content length before check for duplicate:"
 msgstr "Longueur minimum du contenu pour faire une vérification :"
 
 msgid "Super administrator set the minimum length of comment content to %d chars."
-msgstr "Un super administrateur a régler la longueur minimum d'un commentaire à surveiller à %d caractères."
+msgstr "Un super administrateur a réglé la longueur minimum d'un commentaire à surveiller à %d caractères."
 
 msgid "Antispam for duplicate comments on multiblog"
 msgstr "Antispam contre les doublons de commentaires sur un multiblog"
@@ -28,3 +28,5 @@ msgstr "Antispam contre les doublons de commentaires sur un multiblog"
 msgid "Duplicate filter"
 msgstr "Filtre de doublons"
 
+msgid "Duplicate on other blog"
+msgstr "Doublon sur un autre blog"
