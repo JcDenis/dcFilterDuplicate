@@ -2,7 +2,7 @@
 
 [![Release](https://img.shields.io/github/v/release/jcdenis/dcFilterDuplicate?color=lightblue)](https://github.com/JcDenis/dcFilterDuplicate/releases)
 ![Date](https://img.shields.io/github/release-date/jcdenis/dcFilterDuplicate?color=red)
-[![Dotclear](https://img.shields.io/badge/dotclear-v2.37-137bbb.svg)](https://fr.dotclear.org/download)
+[![Dotclear](https://img.shields.io/badge/dotclear-v2.39-137bbb.svg)](https://fr.dotclear.org/download)
 [![Repository](https://img.shields.io/badge/repository-official-9ac123.svg)](https://dotclear.org/plugin/detail/dcFilterDuplicate)
 [![License](https://img.shields.io/github/license/jcdenis/dcFilterDuplicate?color=white)](https://github.com/JcDenis/dcFilterDuplicate/blob/master/LICENSE)
 
@@ -20,10 +20,10 @@ _dcFilterDuplicate_ is a plugin for the open-source web publishing software call
 
 ## USAGE
 
-First install dcFilterDuplicate, manualy from a zip package or from 
+First install dcFilterDuplicate, manually from a zip package or from 
 Dotclear plugins repository. (See Dotclear's documentation to know how do this)
 
-Enable and configure "Dupicate comments filter" from antispam manager.
+Enable and configure "Duplicate" filter from antispam manager.
 
 ## MORE
 
@@ -35,7 +35,8 @@ Enable and configure "Dupicate comments filter" from antispam manager.
 
 ## CONTRIBUTORS
 
-* Jean-Chirstian Denis (author)
+* Jean-Christian Denis (author)
 * Pierre Van Glabeke
+* Claude (AI assistant by Anthropic)
 
 You are welcome to contribute to this code.
