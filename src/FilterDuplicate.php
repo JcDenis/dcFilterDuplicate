@@ -16,7 +16,6 @@ use Dotclear\Helper\Html\Form\Submit;
 use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Plugin\antispam\SpamFilter;
-use Exception;
 
 /**
  * @brief       dcFilterDuplicate antispam class.
@@ -45,18 +44,20 @@ class FilterDuplicate extends SpamFilter
             return null;
         }
 
-        try {
-            if ($this->isDuplicate($content, $ip)) {
-                $this->markDuplicate($content, $ip);
-                $status = 'Duplicate on other blog';
+        if ($this->isDuplicate($content, $ip)) {
+            $this->markDuplicate($content, $ip);
+            $status = 'Duplicate on other blog';
 
-                return true;
-            }
-
-            return null;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            return true;
         }
+
+        return null;
+    }
+
+    public function getStatusMessage(string $status, ?int $comment_id): string
+    {
+        // Status is stored in english
+        return parent::getStatusMessage(__($status), $comment_id);
     }
 
     public function isDuplicate(string $content, string $ip): bool
@@ -84,17 +85,22 @@ class FilterDuplicate extends SpamFilter
 
     public function markDuplicate(string $content, string $ip): void
     {
-        $cur = App::blog()->openCommentCursor();
-        App::db()->con()->writeLock(App::db()->con()->prefix() . App::blog()::COMMENT_TABLE_NAME);
+        // Only comments of other blogs, the current one is checked by antispam
+        $sql = new SelectStatement();
+        $sql->from(App::db()->con()->prefix() . App::blog()::POST_TABLE_NAME)
+            ->column('post_id')
+            ->where('blog_id != ' . $sql->quote(App::blog()->id()));
 
-        $cur->setField('comment_status', -2);
+        $cur = App::blog()->openCommentCursor();
+        $cur->setField('comment_status', App::status()->comment()::JUNK);
         $cur->setField('comment_spam_status', 'Duplicate on other blog');
-        $cur->setField('comment_spam_filter', My::id());
+        $cur->setField('comment_spam_filter', $this->id);
         $cur->update(
-            "WHERE comment_content='" . App::db()->con()->escapeStr($content) . "' " .
-            "AND comment_ip='" . $ip . "' "
+            'WHERE comment_content = ' . $sql->quote($content) . ' ' .
+            'AND comment_ip = ' . $sql->quote($ip) . ' ' .
+            'AND post_id IN (' . $sql->statement() . ')'
         );
-        App::db()->con()->unlock();
+
         $this->triggerOtherBlogs($content, $ip);
     }
 
