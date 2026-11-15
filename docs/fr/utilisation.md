@@ -58,7 +58,7 @@ Un commentaire en double sur le même blog n'est pas repéré à lui seul.
 
 Allez dans _Blog_ puis _Commentaires_ et ouvrez la liste des commentaires indésirables.
 
-La colonne _Filtre antispam_ indique ce qui a classé chaque commentaire. Le message est « Duplicate on other blog ».
+La colonne _Filtre antispam_ indique ce qui a classé chaque commentaire : ici _Doublons_. Dans la fiche du commentaire, le message est « Filtré par Doublons (Doublon sur un autre blog) ».
 
 ![Commentaires classés par le filtre](img/commentaires-indesirables.png)
 
@@ -67,6 +67,5 @@ Pour récupérer un commentaire à tort, cochez-le et choisissez l'action _Publi
 ## Bon à savoir
 
 * Le contenu est comparé tel quel, caractère pour caractère. Une virgule en plus suffit pour qu'il ne soit plus reconnu.
-* Quand un doublon est trouvé, tous les commentaires de même contenu et de même adresse IP sont classés indésirables, **y compris ceux du blog courant** qui n'ont rien à voir avec le doublon.
+* Quand un doublon est trouvé, seuls les commentaires des **autres blogs** sont aussi classés indésirables. Ceux du blog courant restent traités par les autres filtres antispam.
 * Le commentaire de l'autre blog est classé indésirable sans qu'aucun message ne vous soit montré. Pensez à regarder les indésirables de vos autres blogs.
-* Dans la liste des indésirables, le filtre apparaît sous le nom « Doublons » pour le nouveau commentaire, et sous le nom interne « dcFilterDuplicate » pour les commentaires déjà présents.
